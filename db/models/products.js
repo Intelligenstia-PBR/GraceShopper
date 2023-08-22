@@ -1,4 +1,5 @@
 const client = require("../client");
+const fs = require('fs')
 
 async function createProduct({
   title,
@@ -9,6 +10,8 @@ async function createProduct({
   photo,
 }) {
   try {
+
+
     const {
       rows: [product],
     } = await client.query(
@@ -31,6 +34,7 @@ async function getAllProducts() {
         SELECT products.*
         FROM products;
         `);
+
     return products;
   } catch (error) {
     throw error;
