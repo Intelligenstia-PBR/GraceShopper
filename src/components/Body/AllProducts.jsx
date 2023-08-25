@@ -9,7 +9,6 @@ const Products = () => {
   useEffect(() => {
     async function getProducts() {
       const data = await fetchAllProducts()
-      console.log(data)
       setAllProducts(data)
     }
     getProducts()
@@ -23,6 +22,7 @@ const Products = () => {
           <Card key={product.id} value={product} className="mb-3">
             <Card.Body>
               {/* <Card.Img>{product.photo}</Card.Img> */}
+              <Card.Img src={`${product.photo}`} />
               <Card.Title>{product.title}</Card.Title>
               <Card.Subtitle>{product.price}</Card.Subtitle>
               <Form>

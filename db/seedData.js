@@ -3,7 +3,7 @@ const {
   getAllUsers,
 } = require("./models/user");
 const {
-  createProduct
+  createProduct, getAllProducts
 } = require("./models/products")
 const client = require("./client");
 
@@ -145,6 +145,18 @@ async function createInitialProducts() {
   }
 }
 
+async function getInitialProducts() {
+  console.log("Starting to get initial products...")
+  try {
+    const allProducts = await getAllProducts()
+
+    console.log("All products:")
+    console.log(allProducts)
+    console.log("Finished getting all products!")
+  } catch (error) {
+    console.error("Error getting products!")
+  }
+}
 async function rebuildDB() {
   try {
     await dropTables();
@@ -153,6 +165,7 @@ async function rebuildDB() {
     await createInitialUsers()
     await getInitialUsers()
     await createInitialProducts()
+    await getInitialProducts()
   } catch (error) {
     console.log("Error during rebuildDB");
     throw error;

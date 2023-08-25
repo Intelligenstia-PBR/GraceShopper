@@ -11,7 +11,7 @@ async function createProduct({
 }) {
   try {
 
-
+    const photoBinaryInfo = Buffer.from(photo, 'base64')
     const {
       rows: [product],
     } = await client.query(
@@ -20,7 +20,7 @@ async function createProduct({
   VALUES ($1, $2, $3, $4, $5, $6)
   RETURNING *;
   `,
-      [title, description, price, quantity, category, photo]
+      [title, description, price, quantity, category, photoBinaryInfo]
     );
     return product;
   } catch (error) {
@@ -28,18 +28,38 @@ async function createProduct({
   }
 }
 
+// async function getAllProducts() {
+//   try {
+//     const { rows: products } = await client.query(`
+//         SELECT products.*
+//         FROM products;
+//         `);
+
+//     return products
+//   } catch (error) {
+//     console.error(error);
+//   }
+// }
+
 async function getAllProducts() {
   try {
     const { rows: products } = await client.query(`
-        SELECT products.*
-        FROM products;
-        `);
+      SELECT id, title, description, price, quantity, category, encode(photo, 'base64') AS photo
+      FROM products;
+    `);
 
-    return products;
+    // Convert the photo data to Base64 strings
+
+    const productsWithBase64Images = products.map(product => ({
+      ...product,
+      photo: product.photo.toString('utf-8')
+    }))
+    return productsWithBase64Images;
   } catch (error) {
-    throw error;
+    console.error(error);
   }
 }
+
 
 async function getProductById({ id }) {
   try {
