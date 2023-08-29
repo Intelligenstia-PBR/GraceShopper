@@ -116,24 +116,24 @@ async function createInitialProducts() {
         price: 24,
         quantity: 5000,
         category: "Moisturizing Oils",
-        photo: "C:\\Users\\kierr\\OneDrive\\Pictures\\8-hEd4Ww5iiMDh0PA.png"
+        photo: "placeholder"
       },
-      // {
-      //   title: "Coconut and Tea Tree Oil",
-      //   description: "Premium scalp oil!",
-      //   price: 24,
-      //   quantity: 5000,
-      //   category: "Scalp Oils",
-      //   photo: 'placeholder'
-      // },
-      // {
-      //   title: "Vegan and Non-GMO Oil",
-      //   description: "Premium vegan and non-GMO oil!",
-      //   price: 24,
-      //   quantity: 5000,
-      //   category: "Vegan Oils",
-      //   photo: 'placeholder!'
-      // }
+      {
+        title: "Coconut and Tea Tree Oil",
+        description: "Premium scalp oil!",
+        price: 24,
+        quantity: 5000,
+        category: "Scalp Oils",
+        photo: 'placeholder'
+      },
+      {
+        title: "Vegan and Non-GMO Oil",
+        description: "Premium vegan and non-GMO oil!",
+        price: 24,
+        quantity: 5000,
+        category: "Vegan Oils",
+        photo: 'placeholder!'
+      }
     ]
 
     const products = await Promise.all(newProducts.map(createProduct))

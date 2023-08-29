@@ -1,52 +1,45 @@
 const { useState } = require("react");
 const { Alert, Button, Form } = require("react-bootstrap");
-import { Link } from "react-router-dom";
-// const { Form, Link } = require("react-bootstrap/lib/Navbar");
+import { Link, useNavigate } from "react-router-dom";
+import { userLogin } from "../../api";
 
 // This component logs in users
-const Login = ({ setToken, username, setUsername, setAndStoreUsername }) => {
+export const Login = ({
+  token,
+  setToken,
+  username,
+  setUsername,
+  setAndStoreUsername,
+}) => {
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(username);
-    console.log(password);
-    login(username, password, setToken, setSuccess, setError);
-    setAndStoreUsername(username);
-    setUsername("");
-    setPassword("");
-    history.push("/");
-  };
 
-  const DB_URL =
-  process.env.DATABASE_URL
-
-  const login = async (username, password, setToken) => {
-    try {
-      const response = await fetch(`${DB_URL}/users/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-      const result = await response.json();
-      console.log(result);
-      setToken(result.token);
-      return result;
-    } catch (err) {
-      console.error(err);
-    }
+    const login = async () => {
+      try {
+        const result = await userLogin(username, password);
+        localStorage.setItem("token", result.token);
+        setToken(result.token);
+        setAndStoreUsername(username);
+        setUsername("");
+        setPassword("");
+        if (result.token) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    login();
   };
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="text-center form">
+      <h1 className="form-header">Login</h1>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3">
           <Form.Label>Username</Form.Label>
@@ -84,5 +77,3 @@ const Login = ({ setToken, username, setUsername, setAndStoreUsername }) => {
     </div>
   );
 };
-
-export default Login;
