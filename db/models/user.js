@@ -44,20 +44,6 @@ async function createGuest(sessionId) {
   }
 }
 
-// async function findGuestBySessionId(guestSessionId) {
-//   try {
-//     const { rows: [guest] } = await client.query(`
-//     SELECT *
-//     FROM guests
-//     WHERE "sessionId" = $1;
-//     `, [guestSessionId]);
-
-//     return guest
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
-
 async function findGuestBySessionId(sessionId) {
   try {
     const { rows } = await client.query(`
@@ -67,7 +53,6 @@ async function findGuestBySessionId(sessionId) {
     `, [sessionId]);
 
     if (rows.length === 0) {
-      // Handle the case where no guest is found with the provided sessionId
       return null;
     }
 
